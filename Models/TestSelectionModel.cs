@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace ELab_NetCore_API.Models
 {
-    public class TestType
+    public class TestSelectionModel
     {
         public int Id { get; set; }
-        public string TestName { get; set; }
-        public int TestCost { get; set; }
-        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public List<TestType> TestTypes { get; set; }
     }
 }

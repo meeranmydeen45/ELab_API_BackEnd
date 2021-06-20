@@ -72,10 +72,11 @@ namespace ELab_NetCore_API.Controller
         }
         
         [HttpPost("testtype")]
-        public async Task<ActionResult<string>> StoreTestType(int CategoryId, string TestName)
+        public async Task<ActionResult<string>> StoreTestType(int CategoryId, string TestName, int TestCost)
         {
             TestType testType = new TestType();
             testType.TestName = TestName;
+            testType.TestCost = TestCost;
             testType.CategoryId = CategoryId;
 
             string Result = "";
@@ -105,7 +106,52 @@ namespace ELab_NetCore_API.Controller
 
         }
     
+        [HttpGet("gettesttype")]
+        public async Task<ActionResult<List<TestType>>> GetTestTypesById(int CategoryId)
+        {
+         List<TestType> testTypes =  await context.TestTypes.Where(x => x.CategoryId == CategoryId).ToListAsync();
+         if(testTypes != null)
+            {
+                return Ok(testTypes);
+            }
+            else
+            {
+                return Ok("Not Found any TestTypes");
 
+            }
+        }
+    
+        [HttpPost("storeparams")]
+        public async Task<ActionResult<string>> StoreTestParam([FromForm]TestParam TestParam)
+        {
+            string Result = "";
+            TestParam testParam = new TestParam();
+            testParam = TestParam;
 
+            //Db Save
+            using(IDbContextTransaction transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await context.AddAsync(testParam);
+                    await context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    Result = "Done";
+                }
+                catch
+                {
+
+                   await transaction.RollbackAsync();
+                    Result = "Not DoneDone";
+                }
+                
+
+            }
+
+            return Ok(Result);
+        }
+    
+    
     }
 }
