@@ -81,21 +81,10 @@ namespace ELab_NetCore_API.Controller
                 model.TestName = TestType.TestName;
                 model.TestParamList = TestParams;
                 paramModels.Add(model);
-                   
                 }
             
             return Ok(paramModels);
         }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     }
 }

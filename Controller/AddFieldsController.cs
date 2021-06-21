@@ -152,6 +152,33 @@ namespace ELab_NetCore_API.Controller
             return Ok(Result);
         }
     
+        [HttpPost("register-doctor")]
+        public async Task<ActionResult<string>> RegisterDoctor(string name, string gender)
+        {
+            Doctor doctor = new Doctor();
+            doctor.DoctorName = name;
+            doctor.Gender = gender;
+
+            //Db Save
+           await context.AddAsync(doctor);
+           await context.SaveChangesAsync();
+
+            return Ok("Done");
+        }
     
+        [HttpGet("get-doctors")]
+        public async Task<ActionResult<List<Doctor>>> GetDoctors()
+        {
+         List<Doctor> doctors = await context.Doctors.ToListAsync();
+            return Ok(doctors);
+        }
+
+
+        [HttpPost("register-patient")]
+        public async Task<ActionResult<string>> RegisterPatient(Patient patient)
+        {
+            await context.Doctors.ToListAsync();
+            return Ok("");
+        }
     }
 }
